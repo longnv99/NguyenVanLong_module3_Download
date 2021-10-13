@@ -7,16 +7,22 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.io.File;
 
 import static com.example.appdownload.NotificationDownloadChanel.CHANEL_ID;
 
@@ -52,8 +58,8 @@ class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         //txtURL.setText("https://dlcdn.apache.org/netbeans/netbeans/12.3/Apache-NetBeans-12.3-bin-windows-x64.exe");
-        txtURL.setText("https://c1-ex-swe.nixcdn.com/Singer_Audio5/SuThatSauMotLoiHua-ChiDan-3316709.mp3?st=Y3tpeInoQqQywhx2vxRk7g&e=1625581497&download=true");
-        //txtURL.setText("https://pixabay.com/get/g01cf7d8dc8862f6f22cf7a047b201d12d54a8a95b18fbf3a25b5237f15e06f39c3a6aa3daeb6943fce434af9726fce776f45a9fa89e6ce693603833ef6af7254d6775f5764f63526d6decfc546646d27_1280.jpg?attachment=");
+        //txtURL.setText("https://c1-ex-swe.nixcdn.com/Singer_Audio5/SuThatSauMotLoiHua-ChiDan-3316709.mp3?st=Y3tpeInoQqQywhx2vxRk7g&e=1625581497&download=true");
+        txtURL.setText("https://images.pexels.com/photos/65894/peacock-pen-alluring-yet-lure-65894.jpeg?cs=srgb&dl=pexels-pixabay-65894.jpg&fm=jpg");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public
@@ -85,13 +91,20 @@ class MainActivity extends AppCompatActivity {
 
     private
     void notificationComplete(String filename) {
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_VIEW);
+//        File file = new File();
+//        intent.setDataAndType(Uri.fromFile(file), null);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANEL_ID)
                 .setContentTitle(filename)
                 .setContentText("Downloading Completed")
                 .setSmallIcon(R.drawable.ic_baseline_download_done_24);
+//                .setContentIntent(pendingIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, notification.build());
+        unregisterReceiver(broadcastReceiver);
     }
 
 }
